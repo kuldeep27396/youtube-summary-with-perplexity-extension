@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator - YouTube to Perplexity AI Extension</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f0f0f0;
+        }
+        .icon-container { 
+            display: inline-block; 
+            margin: 20px; 
+            text-align: center; 
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .icon-container h3 { 
+            margin: 10px 0; 
+            color: #333;
+        }
+        .instructions {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .current-logo {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        .download-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .download-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Icon Generator for YouTube to Perplexity AI Extension</h1>
+    
+    <div class="current-logo">
+        <h3>📸 Your Professional Logo:</h3>
+        <p>You have a great logo in <code>logo.png</code>! We'll resize it to the required dimensions.</p>
+        <img id="sourceImage" style="max-width: 200px; border: 1px solid #ddd; border-radius: 8px;" />
+    </div>
+    
+    <div class="instructions">
+        <h3>📋 Instructions:</h3>
+        <ol>
+            <li>Click the "Load Image" button to load your logo</li>
+            <li>Click "Download" under each resized icon</li>
+            <li>Save with exact filenames: icon16.png, icon48.png, icon128.png</li>
+            <li>Place the PNG files in your extension folder</li>
+        </ol>
+        <input type="file" id="imageInput" accept="image/*" style="margin: 10px 0;">
+        <button onclick="loadImage()" class="download-btn">Load Image</button>
+    </div>
+
+    <div class="icon-container">
+        <h3>16x16 (Toolbar Icon)</h3>
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <br>
+        <button onclick="downloadIcon('canvas16', 'icon16.png')" class="download-btn">Download icon16.png</button>
+    </div>
+
+    <div class="icon-container">
+        <h3>48x48 (Extension Management)</h3>
+        <canvas id="canvas48" width="48" height="48"></canvas>
+        <br>
+        <button onclick="downloadIcon('canvas48', 'icon48.png')" class="download-btn">Download icon48.png</button>
+    </div>
+
+    <div class="icon-container">
+        <h3>128x128 (Chrome Web Store)</h3>
+        <canvas id="canvas128" width="128" height="128"></canvas>
+        <br>
+        <button onclick="downloadIcon('canvas128', 'icon128.png')" class="download-btn">Download icon128.png</button>
+    </div>
+
+    <div style="clear: both; margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+        <h3>🚀 Next Steps:</h3>
+        <ol>
+            <li>Load your professional logo using the file input above</li>
+            <li>Download all three resized PNG files</li>
+            <li>Save them in your extension folder with exact filenames</li>
+            <li>Reload your extension in Chrome to see the new icons</li>
+            <li>Ready for Chrome Web Store submission!</li>
+        </ol>
+    </div>
+
+    <script>
+        let sourceImageObj = null;
+
+        function loadImage() {
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select an image file first!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    sourceImageObj = img;
+                    document.getElementById('sourceImage').src = e.target.result;
+                    generateAllIcons();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function generateAllIcons() {
+            if (!sourceImageObj) return;
+
+            generateIcon('canvas16', 16);
+            generateIcon('canvas48', 48);
+            generateIcon('canvas128', 128);
+        }
+
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Calculate dimensions to maintain aspect ratio
+            const sourceRatio = sourceImageObj.width / sourceImageObj.height;
+            let drawWidth, drawHeight, offsetX, offsetY;
+            
+            if (sourceRatio > 1) {
+                // Image is wider than tall
+                drawWidth = size;
+                drawHeight = size / sourceRatio;
+                offsetX = 0;
+                offsetY = (size - drawHeight) / 2;
+            } else {
+                // Image is taller than wide or square
+                drawWidth = size * sourceRatio;
+                drawHeight = size;
+                offsetX = (size - drawWidth) / 2;
+                offsetY = 0;
+            }
+            
+            // Draw the image
+            ctx.drawImage(sourceImageObj, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Auto-load the generated image if it exists
+        window.onload = function() {
+            // Try to load the generated-image (1).png automatically
+            const img = new Image();
+            img.onload = function() {
+                sourceImageObj = img;
+                document.getElementById('sourceImage').src = img.src;
+                generateAllIcons();
+            };
+            img.onerror = function() {
+                // File doesn't exist or can't be loaded
+                console.log('No existing logo found, please upload one.');
+            };
+            // Note: This might not work due to CORS, but the file input will work
+            img.src = './logo.png';
+        };
+    </script>
+</body>
+</html>

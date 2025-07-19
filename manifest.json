@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube to Perplexity AI",
+  "version": "1.1",
+  "description": "Send YouTube videos to Perplexity AI for intelligent transcript analysis and comprehensive summarization",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "https://www.perplexity.ai/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*", "https://youtube.com/watch*"],
+      "js": ["content.js"]
+    },
+    {
+      "matches": ["https://www.perplexity.ai/*"],
+      "js": ["perplexity-content.js"]
+    }
+  ],
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Analyze YouTube Video with AI",
+    "default_icon": {
+      "16": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
