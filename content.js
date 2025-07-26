@@ -1,5 +1,4 @@
-// Content script for YouTube transcript extraction
-// This script runs on YouTube pages and helps with transcript extraction
+
 
 // Wait for page to load
 window.addEventListener('load', function() {
