@@ -1,29 +1,7 @@
 // Content script for YouTube transcript extraction
 // This script runs on YouTube pages and helps with transcript extraction
 
-// Wait for page to load
-window.addEventListener('load', function() {
-    // Add a small delay to ensure YouTube's dynamic content is loaded
-    setTimeout(initializeExtension, 2000);
-});
 
-function initializeExtension() {
-    // Check if we're on a YouTube video page
-    if (window.location.pathname === '/watch') {
-        // Add visual indicator that extension is active
-        addExtensionIndicator();
-        
-        // Listen for transcript requests
-        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            if (request.action === 'extractTranscript') {
-                extractTranscriptFromPage()
-                    .then(transcript => sendResponse({transcript: transcript}))
-                    .catch(error => sendResponse({error: error.message}));
-                return true; // Keep message channel open for async response
-            }
-        });
-    }
-}
 
 function addExtensionIndicator() {
     // Create a small indicator to show extension is active
