@@ -1,6 +1,30 @@
 // Content script for YouTube transcript extraction
 // This script runs on YouTube pages and helps with transcript extraction
 
+
+// Declare a variable
+let message = "Hello, JavaScript!";
+
+// Define a function that takes a name as an argument
+function greet(name) {
+  return `Welcome, ${name}!`;
+}
+
+// Call the function and store the result in a variable
+let greeting = greet("User");
+
+// Log messages to the console
+console.log(message);
+console.log(greeting);
+
+// Demonstrate a simple conditional statement
+let age = 25;
+if (age >= 18) {
+  console.log("You are an adult.");
+} else {
+  console.log("You are a minor.");
+}
+
 // Wait for page to load
 window.addEventListener('load', function() {
     // Add a small delay to ensure YouTube's dynamic content is loaded
