@@ -7,6 +7,14 @@ window.addEventListener('load', function() {
     setTimeout(initializeExtension, 2000);
 });
 
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'install') {
+        console.log('YouTube Transcript Extension installed');
+    } else if (details.reason === 'update') {
+        console.log('YouTube Transcript Extension updated');
+    }
+});
+
 function initializeExtension() {
     // Check if we're on a YouTube video page
     if (window.location.pathname === '/watch') {
