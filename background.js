@@ -85,3 +85,15 @@ chrome.commands.onCommand.addListener((command) => {
         });
     }
 });
+
+chrome.commands.onCommand.addListener((command) => {
+    if (command === 'extract-transcript') {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            const tab = tabs[0];
+            
+        });
+    }
+});
+
+
+
