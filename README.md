@@ -1,5 +1,8 @@
 # 🎥 YouTube to Perplexity AI
 
+<img width="1300" height="377" alt="image" src="https://github.com/user-attachments/assets/cc5cb068-9c4d-4c89-a6ce-0d6efc359e50" />
+
+
 <div align="center">
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Download-brightgreen)](https://chrome.google.com/webstore)
